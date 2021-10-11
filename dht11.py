@@ -37,7 +37,7 @@ class DHT11:
         RPi.GPIO.setup(self.__pin, RPi.GPIO.OUT)
 
         # get date time now
-        now = datetime.datetime.now()
+        now = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
         # send initial high
         self.__send_and_sleep(RPi.GPIO.HIGH, 0.05)
 
@@ -68,8 +68,7 @@ class DHT11:
         if the_bytes[4] != checksum:
             return DHT11Result(DHT11Result.ERR_CRC, 0, 0,now)
 
-        # get date time now
-        now = datetime.datetime.now()
+       
         # ok, we have valid data, return it
         return DHT11Result(DHT11Result.ERR_NO_ERROR, the_bytes[2], the_bytes[0], now)
 

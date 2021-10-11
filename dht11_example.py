@@ -14,5 +14,6 @@ while True:
     result = instance.read()
     if result.is_valid():
         print("Temp: %d C" % result.temperature +' '+"Humid: %d %%" % result.humidity)
+        print(result.timestamp)
 
     time.sleep(1)

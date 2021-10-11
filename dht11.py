@@ -36,6 +36,8 @@ class DHT11:
     def read(self):
         RPi.GPIO.setup(self.__pin, RPi.GPIO.OUT)
 
+        # get date time now
+        now = datetime.datetime.now()
         # send initial high
         self.__send_and_sleep(RPi.GPIO.HIGH, 0.05)
 
@@ -53,7 +55,7 @@ class DHT11:
 
         # if bit count mismatch, return error (4 byte data + 1 byte checksum)
         if len(pull_up_lengths) != 40:
-            return DHT11Result(DHT11Result.ERR_MISSING_DATA, 0, 0)
+            return DHT11Result(DHT11Result.ERR_MISSING_DATA, 0, 0, now)
 
         # calculate bits from lengths of the pull up periods
         bits = self.__calculate_bits(pull_up_lengths)
@@ -64,7 +66,7 @@ class DHT11:
         # calculate checksum and check
         checksum = self.__calculate_checksum(the_bytes)
         if the_bytes[4] != checksum:
-            return DHT11Result(DHT11Result.ERR_CRC, 0, 0)
+            return DHT11Result(DHT11Result.ERR_CRC, 0, 0,now)
 
         # get date time now
         now = datetime.datetime.now()

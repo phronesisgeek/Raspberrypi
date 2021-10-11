@@ -13,7 +13,7 @@ class DHT11Result:
     error_code = ERR_NO_ERROR
     temperature = -1
     humidity = -1
-    timestamp =-5
+    timestamp = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
 
     def __init__(self, error_code, temperature, humidity, timestamp):
         self.error_code = error_code

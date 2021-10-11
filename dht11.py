@@ -37,7 +37,7 @@ class DHT11:
         RPi.GPIO.setup(self.__pin, RPi.GPIO.OUT)
 
         # get date time now
-         timestamp = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
+        timestamp = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
         # send initial high
         self.__send_and_sleep(RPi.GPIO.HIGH, 0.05)
 

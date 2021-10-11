@@ -13,7 +13,7 @@ class DHT11Result:
     error_code = ERR_NO_ERROR
     temperature = -1
     humidity = -1
-    timestamp =-1
+    timestamp =-5
 
     def __init__(self, error_code, temperature, humidity, timestamp):
         self.error_code = error_code

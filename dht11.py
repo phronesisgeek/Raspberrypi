@@ -13,13 +13,13 @@ class DHT11Result:
     error_code = ERR_NO_ERROR
     temperature = -1
     humidity = -1
-    timestamp = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
+    timestamp = -1
 
     def __init__(self, error_code, temperature, humidity, timestamp):
         self.error_code = error_code
         self.temperature = temperature
         self.humidity = humidity
-        self.timestamp
+        self.timestamp = timestamp
 
     def is_valid(self):
         return self.error_code == DHT11Result.ERR_NO_ERROR
@@ -37,7 +37,7 @@ class DHT11:
         RPi.GPIO.setup(self.__pin, RPi.GPIO.OUT)
 
         # get date time now
-        now = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
+         timestamp = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
         # send initial high
         self.__send_and_sleep(RPi.GPIO.HIGH, 0.05)
 
@@ -55,7 +55,7 @@ class DHT11:
 
         # if bit count mismatch, return error (4 byte data + 1 byte checksum)
         if len(pull_up_lengths) != 40:
-            return DHT11Result(DHT11Result.ERR_MISSING_DATA, 0, 0, datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S'))
+            return DHT11Result(DHT11Result.ERR_MISSING_DATA, 0, 0,   timestamp)
 
         # calculate bits from lengths of the pull up periods
         bits = self.__calculate_bits(pull_up_lengths)
@@ -66,11 +66,11 @@ class DHT11:
         # calculate checksum and check
         checksum = self.__calculate_checksum(the_bytes)
         if the_bytes[4] != checksum:
-            return DHT11Result(DHT11Result.ERR_CRC, 0, 0,datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S'))
+            return DHT11Result(DHT11Result.ERR_CRC, 0, 0,  timestamp )
 
        
         # ok, we have valid data, return it
-        return DHT11Result(DHT11Result.ERR_NO_ERROR, the_bytes[2], the_bytes[0], datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S'))
+        return DHT11Result(DHT11Result.ERR_NO_ERROR, the_bytes[2], the_bytes[0],   timestamp)
 
     def __send_and_sleep(self, output, sleep):
         RPi.GPIO.output(self.__pin, output)

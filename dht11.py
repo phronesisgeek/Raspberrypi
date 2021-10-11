@@ -70,7 +70,7 @@ class DHT11:
 
        
         # ok, we have valid data, return it
-        return DHT11Result(DHT11Result.ERR_NO_ERROR, the_bytes[2], the_bytes[0], now)
+        return DHT11Result(DHT11Result.ERR_NO_ERROR, the_bytes[2], the_bytes[0], datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S'))
 
     def __send_and_sleep(self, output, sleep):
         RPi.GPIO.output(self.__pin, output)
